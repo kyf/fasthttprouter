@@ -74,7 +74,6 @@
 package fasthttprouter
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/valyala/fasthttp"
@@ -290,7 +289,8 @@ func (r *Router) allowed(path, reqMethod string) (allow string) {
 
 func (r *Router) WrapHandler(ctx *fasthttp.RequestCtx) {
 	r.Handler(ctx)
-	ctx.Logger().Printf(fmt.Sprintf("%d", ctx.Response.StatusCode()))
+	logger := ctx.Logger()
+	logger.Printf("%d - %s", ctx.Response.StatusCode(), ctx.UserAgent())
 }
 
 // Handler makes the router implement the fasthttp.ListenAndServe interface.
